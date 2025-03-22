@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Dress to Database</title>
+</head>
+
+<body>
+    <h2>Upload Dress Image</h2>
+    <form id="uploadForm">
+        <label for="dress_id">Dress ID:</label>
+        <input type="text" id="dress_id" name="dress_id" required>
+        <br><br>
+        <label for="image">Upload Image:</label>
+        <input type="file" id="image" name="image" required>
+        <br><br>
+        <button type="submit">Upload</button>
+    </form>
+
+    <script>
+        document.getElementById("uploadForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            let formData = new FormData();
+            formData.append("dress_id", document.getElementById("dressId").value);
+            formData.append("image", document.getElementById("imageUpload").files[0]);
+
+            try {
+                let response = await fetch("http://127.0.0.1:5000/upload", {
+                    method: "POST",
+                    body: formData
+                });
+
+                let result = await response.json();
+                alert(result.message || result.error);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        });
+
+    </script>
+</body>
+
+</html>
